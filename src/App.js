@@ -175,7 +175,7 @@ import web3 from './web3';
 import ipfs from './ipfs';
 import storehash from './storehash';
 // import XMLHttpRequest from 'react-xml-parser';
-import XMLParser from 'react-xml-parser';
+// import XMLParser from 'react-xml-parser';
 
 class App extends Component {
  
@@ -287,7 +287,7 @@ class App extends Component {
           </Form>
           <br />
 
-          <img src= {`https://ipfs.io/ipfs/${this.state.ipfsHash}`} alt=""></img>
+          {/* <img src= {`https://ipfs.io/ipfs/${this.state.ipfsHash}`} alt=""></img> */}
 
           <hr/>
             <Button onClick = {this.onClick}> Get Transaction Receipt </Button>
@@ -332,13 +332,19 @@ class App extends Component {
     } //render
 }
 
+/* Document Parsing using XMLParser in ReactJS*/
+
 // var XMLParser = require('react-xml-parser');
-var xml = new XMLParser().parseFromString('https://ipfs.io/ipfs/Qme3232LSD8w18FpmJqvjBJWvF2FgdkhA4e3PFHirEGWdd');    // Assume xmlText contains the example XML
-console.log(xml);
-console.log(xml.getElementsByTagName('Name'));
+// var xml = new XMLParser().parseFromString('https://ipfs.io/ipfs/${this.state.ipfsHash}');    // Assume xmlText contains the example XML
+// console.log(xml);
+// console.log(xml.getElementsByTagName('Name'));
+
+/* Document Parsing using XMLHttpRequest in ReactJS*/
+
+//Qme3232LSD8w18FpmJqvjBJWvF2FgdkhA4e3PFHirEGWdd
 
 // var xml = new XMLHttpRequest();
-// xml.open("GET","https://gateway.ipfs.io/ipfs/Qme3232LSD8w18FpmJqvjBJWvF2FgdkhA4e3PFHirEGWdd", false);
+// xml.open("GET","https://gateway.ipfs.io/ipfs/${this.state.ipfsHash}", false);
 // xml.send();
 // var xmlData = xml.responseText;
 // console.log(xmlData);
