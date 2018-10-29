@@ -174,8 +174,9 @@ import './App.css';
 import web3 from './web3';
 import ipfs from './ipfs';
 import storehash from './storehash';
-// import XMLHttpRequest from 'react-xml-parser';
-// import XMLParser from 'react-xml-parser';
+//import XMLHttpRequest from 'react-xml-parser';
+//import XMLParser from 'react-xml-parser';
+// import DOMParser from 'react-xml-parser'
 
 class App extends Component {
  
@@ -186,7 +187,7 @@ class App extends Component {
       blockNumber:'',
       transactionHash:'',
       gasUsed:'',
-      txReceipt: ''   
+      txReceipt: ''
     };
    
     captureFile =(event) => {
@@ -224,6 +225,36 @@ class App extends Component {
     catch(error){
         console.log(error);
       } //catch
+
+      // var xml = new XMLHttpRequest();
+      // xml.open('GET', `https://gateway.ipfs.io/ipfs/${this.state.ipfsHash}`, false);
+      // xml.send();
+      // var xmlData = xml.responseText;
+      // console.log(xmlData);
+
+      var request = new Request(`https://gateway.ipfs.io/ipfs/${this.state.ipfsHash}`);
+      fetch(request).then((results) => {
+        // results returns XML. lets cast this to a string, then create
+        // a new DOM object out of it!
+        results
+          .text()
+          .then(( str ) => {
+            var responseDoc = new DOMParser().parseFromString(str, 'application/xml');
+            console.log(responseDoc);
+            var listItem  = responseDoc.getElementsByTagName('Name');
+            // console.log(listItem);
+            for (let i=0; i<listItem.length; i++){
+              // let liItem = listItem[i];
+              // liItem.textContent = liItem.textContent.toUpperCase();
+            console.log(responseDoc.getElementsByTagName('Name')[i].textContent);
+            
+            // return responseDoc.getElementsByTagName('Name')[i].textContent;
+             }
+          })
+        });
+
+  
+
   } //onClick
 
     onSubmit = async (event) => {
@@ -259,9 +290,10 @@ class App extends Component {
           console.log(transactionHash);
           this.setState({transactionHash});
         }); //storehash 
-      }) //await ipfs.add 
+      }) //await ipfs.add
     }; //onSubmit 
-  
+
+
     render() {
       
       return (
@@ -287,10 +319,13 @@ class App extends Component {
           </Form>
           <br />
 
-          {/* <img src= {`https://ipfs.io/ipfs/${this.state.ipfsHash}`} alt=""></img> */}
-
+            <img src= {`https://ipfs.io/ipfs/${this.state.ipfsHash}`} alt="" style={{height:200}}></img>
+          
           <hr/>
             <Button onClick = {this.onClick}> Get Transaction Receipt </Button>
+            {/* <Button onParsing = {this.onParsing}> Get XML </Button> */}
+
+
 
               <Table bordered responsive>
                 <thead>
@@ -323,15 +358,20 @@ class App extends Component {
                   <tr>
                     <td>Gas Used</td>
                     <td>{this.state.gasUsed}</td>
-                  </tr>                
+                  </tr>               
+                  <tr>
+                    <td id = "xml">
+                      
+                    </td>
+                  </tr>
                 </tbody>
             </Table>
         </Grid>
      </div>
       );
-    } //render
+    //render
 }
-
+}
 /* Document Parsing using XMLParser in ReactJS*/
 
 // var XMLParser = require('react-xml-parser');
@@ -344,9 +384,22 @@ class App extends Component {
 //Qme3232LSD8w18FpmJqvjBJWvF2FgdkhA4e3PFHirEGWdd
 
 // var xml = new XMLHttpRequest();
-// xml.open("GET","https://gateway.ipfs.io/ipfs/${this.state.ipfsHash}", false);
+// xml.open('GET', `https://gateway.ipfs.io/ipfs/${this.state.ipfsHash}`, false);
 // xml.send();
 // var xmlData = xml.responseText;
 // console.log(xmlData);
+
+// var request = new Request('https://gateway.ipfs.io/ipfs/${this.state.ipfsHash}');
+// fetch(request).then((results) => {
+//   // results returns XML. lets cast this to a string, then create
+//   // a new DOM object out of it!
+//   results
+//     .text()
+//     .then(( str ) => {
+//       var responseDoc = new DOMParser().parseFromString(str, 'application/xml');
+//       console.log(responseDoc);
+//       return responseDoc.getElementsByTagName('name').textContent;
+//     })
+//   });
 
 export default App;
