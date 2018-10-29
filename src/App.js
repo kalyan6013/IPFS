@@ -359,11 +359,6 @@ class App extends Component {
                     <td>Gas Used</td>
                     <td>{this.state.gasUsed}</td>
                   </tr>               
-                  <tr>
-                    <td id = "xml">
-                      
-                    </td>
-                  </tr>
                 </tbody>
             </Table>
         </Grid>
