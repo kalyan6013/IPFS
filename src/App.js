@@ -187,9 +187,14 @@ class App extends Component {
       blockNumber:'',
       transactionHash:'',
       gasUsed:'',
-      txReceipt: ''
+      txReceipt: '',
+      responseDoc:'',
+      listItem:'',
+      i:'',
+      liItem:[]
     };
-   
+
+
     captureFile =(event) => {
         event.stopPropagation()
         event.preventDefault()
@@ -239,15 +244,18 @@ class App extends Component {
         results
           .text()
           .then(( str ) => {
-            var responseDoc = new DOMParser().parseFromString(str, 'application/xml');
-            console.log(responseDoc);
-            var listItem  = responseDoc.getElementsByTagName('Name');
+            this.state.responseDoc = new DOMParser().parseFromString(str, 'application/xml');
+            console.log(this.state.responseDoc);
+
+            this.state.listItem  = this.state.responseDoc.getElementsByTagName('Name');
             // console.log(listItem);
-            for (let i=0; i<listItem.length; i++){
+            for (this.i=0; this.i<this.state.listItem.length; this.i++){
               // let liItem = listItem[i];
               // liItem.textContent = liItem.textContent.toUpperCase();
-            console.log(responseDoc.getElementsByTagName('Name')[i].textContent);
-            
+            // console.log(this.state.responseDoc.getElementsByTagName('Name')[this.i].textContent);
+            this.liItem = this.state.responseDoc.getElementsByTagName('Name')[this.i].textContent;
+            this.setState({liItem: this.state.liItem});
+            console.log(this.liItem);
             // return responseDoc.getElementsByTagName('Name')[i].textContent;
              }
           })
@@ -359,6 +367,14 @@ class App extends Component {
                     <td>Gas Used</td>
                     <td>{this.state.gasUsed}</td>
                   </tr>               
+                  <tr>
+                    <td>
+                      XML
+                    </td>
+                    <td>
+                      {this.liItem}
+                    </td>
+                  </tr>
                 </tbody>
             </Table>
         </Grid>
