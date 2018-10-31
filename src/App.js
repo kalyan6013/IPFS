@@ -241,6 +241,7 @@ class App extends Component {
       fetch(request).then((results) => {
         // results returns XML. lets cast this to a string, then create
         // a new DOM object out of it!
+        var values=[];
         results
           .text()
           .then(( str ) => {
@@ -250,20 +251,16 @@ class App extends Component {
             this.state.listItem  = this.state.responseDoc.getElementsByTagName('Name');
             // console.log(listItem);
             for (this.i=0; this.i<this.state.listItem.length; this.i++){
-              // let liItem = listItem[i];
-              // liItem.textContent = liItem.textContent.toUpperCase();
-            // console.log(this.state.responseDoc.getElementsByTagName('Name')[this.i].textContent);
-            this.liItem = this.state.responseDoc.getElementsByTagName('Name')[this.i].textContent;
-            this.setState({liItem: this.state.liItem});
-            console.log(this.liItem);
+            values.push(this.state.responseDoc.getElementsByTagName('Name')[this.i].textContent);
+            
+            console.log(values);
             // return responseDoc.getElementsByTagName('Name')[i].textContent;
              }
+
+             this.setState({liItem: values});
           })
         });
-
-  
-
-  } //onClick
+  } //onClick})})
 
     onSubmit = async (event) => {
       event.preventDefault();
@@ -327,6 +324,10 @@ class App extends Component {
           </Form>
           <br />
 
+          <div>
+            <p><b>Name of the Book: </b>{this.state.liItem.map(x => {return x + '\n';})}</p>
+            </div>
+
             <img src= {`https://ipfs.io/ipfs/${this.state.ipfsHash}`} alt="" style={{height:200}}></img>
           
           <hr/>
@@ -367,16 +368,16 @@ class App extends Component {
                     <td>Gas Used</td>
                     <td>{this.state.gasUsed}</td>
                   </tr>               
-                  <tr>
+                  {/* <tr>
                     <td>
                       XML
                     </td>
                     <td>
-                      {this.liItem}
+                      {this.state.liItem.map(x => {return x + '|';})}
                     </td>
-                  </tr>
+                  </tr> */}
                 </tbody>
-            </Table>
+            </Table>  
         </Grid>
      </div>
       );
